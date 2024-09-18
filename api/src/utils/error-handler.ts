@@ -2,11 +2,14 @@ import axios, { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
 import AppError from "./app-error";
 
-const handleError = (err: unknown, req: Request, res: Response) => {
-  if (axios.isAxiosError(err) && req.accepts("json")) {
-    res.status(err.response?.status || HttpStatusCode.InternalServerError);
-    res.send({ error: err.message });
+const handleError = (error: unknown, req: Request, res: Response) => {
+  if (axios.isAxiosError(error) && req.accepts("json")) {
+    res.status(error.response?.status || HttpStatusCode.InternalServerError);
+    res.send({ error: error.message });
     return;
+  }
+  if (error instanceof AppError) {
+    return res.status(error.statusCode).send(error.message);
   }
   res.status(HttpStatusCode.InternalServerError).send("Failed to load data");
 };

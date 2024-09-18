@@ -1,41 +1,46 @@
 import express, { NextFunction, Request, Response } from "express";
-import { axios, axiosInstance } from "../utils/axios-config";
+import * as photoService from "./photo-service";
+import { photoFiltersSchema } from "./photo-schemas";
+import { PhotoQueryFilters } from "./interfaces";
+import { validateQuery } from "../utils/validation-middleware";
 
 const router = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
-  const [photosResponse, albumsResponse, usersResponse] = await Promise.all([
-    axiosInstance.get("photos"),
-    axiosInstance.get("albums"),
-    axiosInstance.get("users"),
-  ]);
+type FilterRequest = Request<unknown, unknown, unknown, PhotoQueryFilters>;
 
-  res.json(photosResponse.data);
-});
+router.get(
+  "/",
+  validateQuery(photoFiltersSchema),
+  async (req: FilterRequest, res: Response, next: NextFunction) => {
+    const {
+      title,
+      "album.title": albumTitle,
+      "album.user.email": email,
+      limit,
+      offset,
+    } = req.query;
+
+    try {
+      const response = await photoService.getFilteredPhotos({
+        title,
+        albumTitle,
+        email,
+        limit,
+        offset,
+      });
+
+      res.json(response);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  const photoId = req.params.id;
+
   try {
-    const photoId = req.params.id;
-
-    const photoResponse = await axiosInstance.get(`photos/${photoId}`);
-    const photo = photoResponse.data;
-
-    const albumResponse = await axiosInstance.get(`albums/${photo.albumId}`);
-    const album = albumResponse.data;
-
-    const userResponse = await axiosInstance.get(`users/${album.userId}`);
-    const user = userResponse.data;
-
-    delete photo.albumId;
-    delete album.userId;
-
-    const enrichedPhoto = {
-      ...photo,
-      album: {
-        ...album,
-        user,
-      },
-    };
+    const enrichedPhoto = await photoService.getPhoto(Number(photoId));
 
     res.json(enrichedPhoto);
   } catch (error) {
