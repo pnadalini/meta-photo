@@ -1,8 +1,17 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../common/utils/axiosConfig";
+import { Photo } from "./Photos/interfaces";
+
+interface PhotosResponse {
+  photos: Photo[];
+  page: number;
+  pageCount: number;
+}
 
 const fetchPhotos = async (queryParams: string = "") => {
-  const response = await axiosInstance.get("photos" + (queryParams ? `?${queryParams}` : ""));
+  const response = await axiosInstance.get<PhotosResponse>(
+    "photos" + (queryParams ? `?${queryParams}` : ""),
+  );
   return response.data;
 };
 
@@ -25,16 +34,8 @@ const usePhotos = (filters: Record<string, string> = {}) => {
   });
 };
 
-// const useMutationPhotos = (filters?: Record<string, string>) => {
-//   const params = new URLSearchParams(filters);
-//   return useMutation({
-//     queryKey: ["photos", params.toString()],
-//     queryFn: () => fetchPhotos(params.toString()),
-//   });
-// };
-
 const fetchPhoto = async (id: string) => {
-  const response = await axiosInstance.get(`photos/${id}`);
+  const response = await axiosInstance.get<Photo>(`photos/${id}`);
   return response.data;
 };
 

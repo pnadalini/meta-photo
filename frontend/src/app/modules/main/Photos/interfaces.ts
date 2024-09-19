@@ -1,17 +1,3 @@
-export interface Photo {
-  id: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-  albumId: number;
-}
-
-export interface Album {
-  id: number;
-  title: string;
-  userId: number;
-}
-
 export interface User {
   id: number;
   name: string;
@@ -36,18 +22,16 @@ export interface User {
   };
 }
 
-export type EnrichedAlbum = Omit<Album, "userId"> & {
-  user: User;
-};
-
-export type EnrichedPhoto = Omit<Photo, "albumId"> & {
-  album: EnrichedAlbum;
-};
-
-export interface PhotoQueryFilters {
+export interface Album {
+  id: number;
   title: string;
-  "album.title": string;
-  "album.user.email": string;
-  limit: string;
-  offset: string;
+  user: User;
+}
+
+export interface Photo {
+  id: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+  album: Album;
 }

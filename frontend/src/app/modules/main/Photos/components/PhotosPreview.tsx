@@ -1,15 +1,15 @@
 import { CardContent, CardImage, LinkCard } from "@/app/modules/common/components/Card";
 import React from "react";
-import { EnrichedPhoto } from "../interfaces";
+import { Photo } from "../interfaces";
 
 interface Props {
-  photos: EnrichedPhoto[];
+  photos: Photo[];
 }
 
 const PhotosPreview: React.FC<Props> = ({ photos }) => {
   return (
     <>
-      {photos.map((photo: any) => (
+      {photos.map((photo) => (
         <LinkCard key={photo.id} href={`photos/${photo.id}`}>
           <CardImage alt={photo.title} src={photo.thumbnailUrl} />
           <CardContent>

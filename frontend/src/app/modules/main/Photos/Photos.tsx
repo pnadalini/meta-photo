@@ -29,7 +29,7 @@ const Photos: React.FC<Props> = ({}) => {
     setOffset((prevOffset) => Math.max(prevOffset - 1, minOffset));
   };
   const onNextClick = () => {
-    setOffset((prevOffset) => Math.min(prevOffset + 1, data.pageCount - 1));
+    setOffset((prevOffset) => Math.min(prevOffset + 1, data!.pageCount - 1));
   };
 
   const debouncedSetQuery = useCallback(
