@@ -27,8 +27,8 @@ interface Filters {
   title?: string;
   albumTitle?: string;
   email?: string;
-  limit?: number;
-  offset?: number;
+  limit?: number | string;
+  offset?: number | string;
 }
 
 const getFilteredPhotos = async ({ title, albumTitle, email, limit = 25, offset = 0 }: Filters) => {
@@ -88,9 +88,9 @@ const getFilteredPhotos = async ({ title, albumTitle, email, limit = 25, offset 
   );
 
   const response = {
-    page: offset + 1,
-    pageCount: Math.ceil(enrichedPhotos.length / limit),
-    photos: enrichedPhotos.splice(offset, limit),
+    page: Number(offset) + 1,
+    pageCount: Math.ceil(enrichedPhotos.length / Number(limit)),
+    photos: enrichedPhotos.splice(Number(offset) * Number(limit), Number(limit)),
   };
 
   return response;
