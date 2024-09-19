@@ -1,29 +1,52 @@
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import React from "react";
 
-interface Props {
-  imgSrc: string;
-  title: string;
-  linkHref: string;
-}
-
-const Card: React.FC<Props> = ({ imgSrc, title, linkHref }) => {
+const Card: React.FC<
+  React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+> = (props) => {
   return (
-    <Link
-      href={linkHref}
-      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex justify-center">
-        <img className="rounded-t-lg" src={imgSrc} alt="Preview" />
-      </div>
-      <div className="p-5">
-        <div>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {title}
-          </h5>
-        </div>
-      </div>
-    </Link>
+    <div
+      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      {...props}
+    />
   );
 };
 
-export default Card;
+interface LinkCardProps extends LinkProps {
+  children: React.ReactNode;
+}
+
+const LinkCard: React.FC<LinkCardProps> = (props) => {
+  return (
+    <Link
+      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      {...props}
+    />
+  );
+};
+
+interface CardImageProps {
+  src: string;
+  alt: string;
+}
+
+const CardImage: React.FC<CardImageProps> = ({ src, alt }) => {
+  return (
+    <div className="flex justify-center">
+      <img className="rounded-t-lg" src={src} alt={alt} />
+    </div>
+  );
+};
+interface CardContentProps {
+  children: React.ReactNode;
+}
+
+const CardContent: React.FC<CardContentProps> = ({ children }) => {
+  return (
+    <div className="p-5">
+      <h5 className="mb-2 text-xl tracking-tight text-gray-900 dark:text-white">{children}</h5>
+    </div>
+  );
+};
+
+export { Card, CardImage, CardContent, LinkCard };

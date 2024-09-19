@@ -5,9 +5,9 @@ interface Props {}
 
 const Home: React.FC<Props> = () => {
   return (
-    <div className="m-4">
+    <main className="m-4">
       <Photos />
-    </div>
+    </main>
   );
 };
 
