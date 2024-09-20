@@ -14,6 +14,7 @@ const initialFormState = {
   userEmail: "",
 };
 const minOffset = 1;
+const pageLookupTimeout = 700;
 
 interface Props {}
 
@@ -33,7 +34,7 @@ const Photos: React.FC<Props> = ({}) => {
   };
 
   const debouncedSetQuery = useCallback(
-    debounce((newQuery) => setQuery(newQuery), 700),
+    debounce((newQuery) => setQuery(newQuery), pageLookupTimeout),
     [],
   );
 
