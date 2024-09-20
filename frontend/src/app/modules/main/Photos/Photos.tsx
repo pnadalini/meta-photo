@@ -64,7 +64,7 @@ const Photos: React.FC<Props> = ({}) => {
         isFetching={isFetching}
       />
       {status === "error" ? <div>Error: {error.message}</div> : null}
-      <div className="flex flex-wrap max-h-[75vh] overflow-y-auto relative justify-center">
+      <div className="flex flex-wrap max-h-[70vh] overflow-y-auto relative justify-center">
         <PhotosPreview photos={data.photos} />
         {isFetching ? <LoadingOverlay /> : null}
       </div>

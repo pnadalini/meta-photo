@@ -8,10 +8,13 @@ interface Props {
 }
 
 const Photo: React.FC<Props> = ({ id }) => {
-  const { data, isLoading } = usePhoto(id);
+  const { data, isLoading, error } = usePhoto(id);
 
   if (isLoading) {
     return <Spinner />;
+  }
+  if (error || !data) {
+    return <div className="m-5">Error when trying to load the photo {error?.message}</div>;
   }
 
   const photo = data;

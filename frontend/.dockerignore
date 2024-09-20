@@ -1,0 +1,14 @@
+.idea
+.vscode
+dist/
+node_modules
+custom_scripts
+.dockerignore
+.editorconfig
+compose
+docker-compose.*
+Dockerfile
+README.md
+npm
+.npm-cache
+**/.git

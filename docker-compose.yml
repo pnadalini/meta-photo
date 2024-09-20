@@ -1,0 +1,13 @@
+services:
+ api:
+  build: ./api
+  volumes:
+    - ./api:/app  # Mount only the api directory
+  ports:
+   - 8000:8000
+ web:
+  build: ./frontend
+  ports:
+  - "80:3000"
+  links:
+  - api
