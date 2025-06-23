@@ -33,6 +33,7 @@ const Photos: React.FC<Props> = ({}) => {
     setOffset((prevOffset) => Math.min(prevOffset + 1, data!.pageCount - 1));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetQuery = useCallback(
     debounce((newQuery) => setQuery(newQuery), pageLookupTimeout),
     [],
@@ -40,6 +41,7 @@ const Photos: React.FC<Props> = ({}) => {
 
   useEffect(() => {
     debouncedSetQuery({ ...formState, limit, offset: offset - 1 });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit, offset]);
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -65,7 +67,7 @@ const Photos: React.FC<Props> = ({}) => {
         isFetching={isFetching}
       />
       {status === "error" ? <div>Error: {error.message}</div> : null}
-      <div className="flex flex-wrap max-h-[70vh] overflow-y-auto relative justify-center">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-2 max-h-[70vh] overflow-y-auto justify-center px-2">
         <PhotosPreview photos={data.photos} />
         {isFetching ? <LoadingOverlay /> : null}
       </div>

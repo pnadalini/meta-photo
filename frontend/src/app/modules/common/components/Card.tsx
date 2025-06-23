@@ -33,6 +33,7 @@ interface CardImageProps {
 const CardImage: React.FC<CardImageProps> = ({ src, alt }) => {
   return (
     <div className="flex justify-center">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="rounded-t-lg" src={src} alt={alt} />
     </div>
   );
