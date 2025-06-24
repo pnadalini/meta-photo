@@ -47,7 +47,7 @@ const Photos: React.FC<Props> = ({}) => {
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setQuery({ ...formState, limit, offset });
+    setQuery({ ...formState, limit, offset: offset - 1 });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
